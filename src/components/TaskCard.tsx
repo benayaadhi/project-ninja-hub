@@ -1,6 +1,7 @@
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Calendar, Clock } from "lucide-react";
 
 interface TaskCardProps {
   title: string;
@@ -8,6 +9,9 @@ interface TaskCardProps {
   status: "todo" | "in-progress" | "done";
   assignee?: string;
   priority?: "low" | "medium" | "high";
+  platform?: "instagram" | "facebook" | "twitter" | "linkedin";
+  hoursSpent?: number;
+  dueDate?: string;
 }
 
 export const TaskCard = ({
@@ -16,6 +20,9 @@ export const TaskCard = ({
   status,
   assignee,
   priority = "medium",
+  platform,
+  hoursSpent = 0,
+  dueDate,
 }: TaskCardProps) => {
   const priorityColors = {
     low: "bg-gray-100 text-gray-600",
@@ -23,18 +30,37 @@ export const TaskCard = ({
     high: "bg-red-100 text-red-600",
   };
 
+  const platformColors = {
+    instagram: "bg-pink-100 text-pink-600",
+    facebook: "bg-blue-100 text-blue-600",
+    twitter: "bg-sky-100 text-sky-600",
+    linkedin: "bg-indigo-100 text-indigo-600",
+  };
+
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 animate-fade-in">
       <div className="p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <span
-            className={cn(
-              "px-2 py-1 rounded-full text-xs font-medium",
-              priorityColors[priority]
+          <div className="flex space-x-2">
+            <span
+              className={cn(
+                "px-2 py-1 rounded-full text-xs font-medium",
+                priorityColors[priority]
+              )}
+            >
+              {priority}
+            </span>
+            {platform && (
+              <span
+                className={cn(
+                  "px-2 py-1 rounded-full text-xs font-medium",
+                  platformColors[platform]
+                )}
+              >
+                {platform}
+              </span>
             )}
-          >
-            {priority}
-          </span>
+          </div>
           <span
             className={cn(
               "px-2 py-1 rounded-full text-xs font-medium",
@@ -49,6 +75,18 @@ export const TaskCard = ({
         <div>
           <h3 className="font-semibold text-lg text-gray-900">{title}</h3>
           <p className="text-gray-600 mt-1 text-sm line-clamp-2">{description}</p>
+        </div>
+        <div className="flex items-center justify-between text-sm text-gray-500">
+          <div className="flex items-center space-x-2">
+            <Clock className="w-4 h-4" />
+            <span>{hoursSpent}h spent</span>
+          </div>
+          {dueDate && (
+            <div className="flex items-center space-x-2">
+              <Calendar className="w-4 h-4" />
+              <span>{dueDate}</span>
+            </div>
+          )}
         </div>
         {assignee && (
           <div className="flex items-center space-x-2">

@@ -3,25 +3,34 @@ import { TaskCard } from "./TaskCard";
 
 const mockTasks = [
   {
-    title: "Design System Updates",
-    description: "Update color palette and typography in the design system",
+    title: "Instagram Content Calendar",
+    description: "Create and schedule content for client XYZ's Instagram",
     status: "in-progress",
     assignee: "Alex Chen",
     priority: "high",
+    platform: "instagram",
+    hoursSpent: 4,
+    dueDate: "2024-03-20",
   },
   {
-    title: "User Research",
-    description: "Conduct user interviews for new feature development",
+    title: "Facebook Ad Campaign",
+    description: "Design and launch Q1 promotional campaign for client ABC",
     status: "todo",
     assignee: "Sarah Smith",
     priority: "medium",
+    platform: "facebook",
+    hoursSpent: 2,
+    dueDate: "2024-03-25",
   },
   {
-    title: "Bug Fixes",
-    description: "Fix reported issues in the authentication flow",
+    title: "LinkedIn Company Page Setup",
+    description: "Set up and optimize client DEF's LinkedIn presence",
     status: "done",
     assignee: "Mike Johnson",
     priority: "low",
+    platform: "linkedin",
+    hoursSpent: 6,
+    dueDate: "2024-03-15",
   },
 ] as const;
 
