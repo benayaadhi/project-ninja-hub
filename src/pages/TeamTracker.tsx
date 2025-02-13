@@ -15,14 +15,17 @@ import {
 } from "recharts";
 
 const mockData = [
-  { date: "11/07", ideal: 120, remaining: 115, scope: 120 },
-  { date: "11/09", ideal: 100, remaining: 105, scope: 120 },
-  { date: "11/11", ideal: 80, remaining: 95, scope: 120 },
-  { date: "11/13", ideal: 60, remaining: 70, scope: 120 },
-  { date: "11/15", ideal: 40, remaining: 65, scope: 120 },
-  { date: "11/17", ideal: 20, remaining: 30, scope: 120 },
-  { date: "11/19", ideal: 10, remaining: 15, scope: 120 },
-  { date: "11/21", ideal: 0, remaining: 0, scope: 120 },
+  { date: "03/15", ideal: 100, remaining: 100, completed: 0 },
+  { date: "03/16", ideal: 90, remaining: 95, completed: 5 },
+  { date: "03/17", ideal: 80, remaining: 85, completed: 15 },
+  { date: "03/18", ideal: 70, remaining: 75, completed: 25 },
+  { date: "03/19", ideal: 60, remaining: 65, completed: 35 },
+  { date: "03/20", ideal: 50, remaining: 45, completed: 55 },
+  { date: "03/21", ideal: 40, remaining: 35, completed: 65 },
+  { date: "03/22", ideal: 30, remaining: 25, completed: 75 },
+  { date: "03/23", ideal: 20, remaining: 15, completed: 85 },
+  { date: "03/24", ideal: 10, remaining: 5, completed: 95 },
+  { date: "03/25", ideal: 0, remaining: 0, completed: 100 },
 ];
 
 const TeamTracker = () => {
@@ -57,7 +60,7 @@ const TeamTracker = () => {
               config={{
                 ideal: { label: "Ideal Burndown", color: "#3B82F6" },
                 remaining: { label: "Remaining Work", color: "#F97316" },
-                scope: { label: "Sprint Scope", color: "#22C55E" },
+                completed: { label: "Completed Work", color: "#22C55E" },
               }}
             >
               <LineChart data={mockData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
@@ -70,19 +73,20 @@ const TeamTracker = () => {
                   type="monotone"
                   dataKey="ideal"
                   stroke="#3B82F6"
+                  strokeDasharray="5 5"
                   dot={false}
                 />
                 <Line
                   type="monotone"
                   dataKey="remaining"
                   stroke="#F97316"
-                  dot={false}
+                  dot={true}
                 />
                 <Line
                   type="monotone"
-                  dataKey="scope"
+                  dataKey="completed"
                   stroke="#22C55E"
-                  dot={false}
+                  dot={true}
                 />
               </LineChart>
             </ChartContainer>
@@ -90,14 +94,14 @@ const TeamTracker = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-blue-50 p-4 rounded-lg">
-              <h3 className="text-sm font-medium text-blue-700">Planned Hours</h3>
-              <p className="mt-2 text-2xl font-semibold text-blue-900">120</p>
+              <h3 className="text-sm font-medium text-blue-700">Total Hours</h3>
+              <p className="mt-2 text-2xl font-semibold text-blue-900">100</p>
             </div>
             <div className="bg-orange-50 p-4 rounded-lg">
               <h3 className="text-sm font-medium text-orange-700">
                 Remaining Hours
               </h3>
-              <p className="mt-2 text-2xl font-semibold text-orange-900">65</p>
+              <p className="mt-2 text-2xl font-semibold text-orange-900">45</p>
             </div>
             <div className="bg-green-50 p-4 rounded-lg">
               <h3 className="text-sm font-medium text-green-700">

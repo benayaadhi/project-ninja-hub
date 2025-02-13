@@ -41,7 +41,6 @@ export const TaskCard = ({
   };
 
   const handleClick = () => {
-    // Navigate to the progress page with the task details
     navigate(`/progress/${encodeURIComponent(title)}`, { 
       state: { 
         title, 
@@ -86,9 +85,9 @@ export const TaskCard = ({
           <span
             className={cn(
               "px-2 py-1 rounded-full text-xs font-medium",
-              status === "todo" && "bg-status-todo text-gray-700",
-              status === "in-progress" && "bg-status-in-progress text-blue-700",
-              status === "done" && "bg-status-done text-green-700"
+              status === "todo" && "bg-gray-100 text-gray-700",
+              status === "in-progress" && "bg-blue-100 text-blue-700",
+              status === "done" && "bg-green-100 text-green-700"
             )}
           >
             {status.replace("-", " ")}
@@ -106,7 +105,7 @@ export const TaskCard = ({
           {dueDate && (
             <div className="flex items-center space-x-2">
               <Calendar className="w-4 h-4" />
-              <span>{dueDate}</span>
+              <span>{new Date(dueDate).toLocaleDateString()}</span>
             </div>
           )}
         </div>
