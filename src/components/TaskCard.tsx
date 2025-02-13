@@ -2,6 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Calendar, Clock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface TaskCardProps {
   title: string;
@@ -24,6 +25,8 @@ export const TaskCard = ({
   hoursSpent = 0,
   dueDate,
 }: TaskCardProps) => {
+  const navigate = useNavigate();
+  
   const priorityColors = {
     low: "bg-gray-100 text-gray-600",
     medium: "bg-purple-100 text-purple-600",
@@ -37,8 +40,27 @@ export const TaskCard = ({
     linkedin: "bg-indigo-100 text-indigo-600",
   };
 
+  const handleClick = () => {
+    // Navigate to the progress page with the task details
+    navigate(`/progress/${encodeURIComponent(title)}`, { 
+      state: { 
+        title, 
+        description, 
+        status, 
+        assignee, 
+        priority, 
+        platform, 
+        hoursSpent, 
+        dueDate 
+      } 
+    });
+  };
+
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 animate-fade-in">
+    <Card 
+      className="group hover:shadow-lg transition-all duration-300 animate-fade-in cursor-pointer"
+      onClick={handleClick}
+    >
       <div className="p-4 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex space-x-2">
