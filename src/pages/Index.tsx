@@ -1,7 +1,8 @@
 
 import { Navbar } from "@/components/Navbar";
 import { Board } from "@/components/Board";
-import { ChartBar } from "lucide-react";
+import { ChartBar, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   return (
@@ -18,11 +19,15 @@ const Index = () => {
                 Track and manage your team's social media tasks and campaigns.
               </p>
             </div>
-            <div className="mt-4 sm:mt-0">
+            <div className="mt-4 sm:mt-0 sm:flex sm:items-center sm:space-x-4">
               <div className="flex items-center space-x-2 text-sm text-gray-600">
                 <ChartBar className="w-4 h-4" />
                 <span>Total Active Tasks: {3}</span>
               </div>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                New Workload
+              </Button>
             </div>
           </div>
           <Board />
