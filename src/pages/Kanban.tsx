@@ -1,13 +1,10 @@
 
 import { Navbar } from "@/components/Navbar";
-import { Board } from "@/components/Board";
-import { ChartBar, Plus } from "lucide-react";
+import { KanbanBoard } from "@/components/KanbanBoard";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { Plus, Users } from "lucide-react";
 
-const Index = () => {
-  const navigate = useNavigate();
-
+const KanbanPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -16,28 +13,28 @@ const Index = () => {
           <div className="sm:flex sm:items-center justify-between mb-8">
             <div className="sm:flex-auto">
               <h1 className="text-2xl font-semibold text-gray-900">
-                Team Workload
+                Project Board
               </h1>
               <p className="mt-2 text-sm text-gray-700">
-                Track and manage your team's social media tasks and campaigns.
+                Manage tasks and track progress across your team.
               </p>
             </div>
             <div className="mt-4 sm:mt-0 sm:flex sm:items-center sm:space-x-4">
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <ChartBar className="w-4 h-4" />
-                <span>Total Active Tasks: {3}</span>
-              </div>
-              <Button onClick={() => navigate("/kanban")}>
+              <Button variant="outline">
+                <Users className="w-4 h-4 mr-2" />
+                Invite Members
+              </Button>
+              <Button>
                 <Plus className="w-4 h-4 mr-2" />
-                New Workload
+                New Task
               </Button>
             </div>
           </div>
-          <Board />
+          <KanbanBoard />
         </div>
       </main>
     </div>
   );
 };
 
-export default Index;
+export default KanbanPage;

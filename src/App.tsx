@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ProgressPage from "./pages/Progress";
 import TeamTracker from "./pages/TeamTracker";
+import KanbanPage from "./pages/Kanban";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/progress/:taskTitle" element={<ProgressPage />} />
           <Route path="/team-tracker" element={<TeamTracker />} />
+          <Route path="/kanban" element={<KanbanPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
