@@ -38,10 +38,10 @@ const TeamTracker = () => {
         <Button
           variant="ghost"
           className="mb-6 -ml-4"
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Tasks
+          Back to Board
         </Button>
 
         <div className="bg-white rounded-lg shadow-sm p-6 space-y-6">

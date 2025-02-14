@@ -1,9 +1,25 @@
 
 import { useState } from "react";
 import { Card } from "./ui/card";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { TaskCard } from "./TaskCard";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "./ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 interface KanbanTask {
   title: string;
@@ -72,6 +88,18 @@ export const KanbanBoard = () => {
     },
   ]);
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState<KanbanTask | null>(null);
+  const [editingColumnId, setEditingColumnId] = useState<string>("");
+
+  const [newTask, setNewTask] = useState<KanbanTask>({
+    title: "",
+    description: "",
+    status: "todo",
+    priority: "medium",
+    hoursSpent: 0,
+  });
+
   const handleDragStart = (e: React.DragEvent, taskIndex: number, sourceColumn: string) => {
     e.dataTransfer.setData("taskIndex", taskIndex.toString());
     e.dataTransfer.setData("sourceColumn", sourceColumn);
@@ -102,6 +130,48 @@ export const KanbanBoard = () => {
     });
   };
 
+  const handleAddTask = (columnId: string) => {
+    setEditingTask(null);
+    setEditingColumnId(columnId);
+    setNewTask({
+      title: "",
+      description: "",
+      status: columnId as "todo" | "in-progress" | "done",
+      priority: "medium",
+      hoursSpent: 0,
+    });
+    setIsDialogOpen(true);
+  };
+
+  const handleEditTask = (task: KanbanTask, columnId: string) => {
+    setEditingTask(task);
+    setEditingColumnId(columnId);
+    setNewTask(task);
+    setIsDialogOpen(true);
+  };
+
+  const handleSaveTask = () => {
+    setColumns(prevColumns => {
+      const newColumns = [...prevColumns];
+      const columnIndex = newColumns.findIndex(col => col.id === editingColumnId);
+      
+      if (editingTask) {
+        // Edit existing task
+        const taskIndex = newColumns[columnIndex].tasks.findIndex(
+          t => t.title === editingTask.title
+        );
+        newColumns[columnIndex].tasks[taskIndex] = newTask;
+      } else {
+        // Add new task
+        newColumns[columnIndex].tasks.push(newTask);
+      }
+      
+      return newColumns;
+    });
+    
+    setIsDialogOpen(false);
+  };
+
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -124,6 +194,7 @@ export const KanbanBoard = () => {
                   key={task.title}
                   draggable
                   onDragStart={(e) => handleDragStart(e, index, column.id)}
+                  onClick={() => handleEditTask(task, column.id)}
                 >
                   <TaskCard {...task} />
                 </div>
@@ -131,6 +202,7 @@ export const KanbanBoard = () => {
               <Button 
                 variant="ghost" 
                 className="w-full border-2 border-dashed border-gray-300 hover:border-gray-400"
+                onClick={() => handleAddTask(column.id)}
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Task
@@ -139,6 +211,98 @@ export const KanbanBoard = () => {
           </div>
         ))}
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
+              {editingTask ? "Edit Task" : "Add New Task"}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Title</label>
+              <Input
+                value={newTask.title}
+                onChange={(e) =>
+                  setNewTask((prev) => ({ ...prev, title: e.target.value }))
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Description</label>
+              <Textarea
+                value={newTask.description}
+                onChange={(e) =>
+                  setNewTask((prev) => ({ ...prev, description: e.target.value }))
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Priority</label>
+              <Select
+                value={newTask.priority}
+                onValueChange={(value: "low" | "medium" | "high") =>
+                  setNewTask((prev) => ({ ...prev, priority: value }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Platform</label>
+              <Select
+                value={newTask.platform}
+                onValueChange={(value: "instagram" | "facebook" | "twitter" | "linkedin") =>
+                  setNewTask((prev) => ({ ...prev, platform: value }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="instagram">Instagram</SelectItem>
+                  <SelectItem value="facebook">Facebook</SelectItem>
+                  <SelectItem value="twitter">Twitter</SelectItem>
+                  <SelectItem value="linkedin">LinkedIn</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Due Date</label>
+              <Input
+                type="date"
+                value={newTask.dueDate}
+                onChange={(e) =>
+                  setNewTask((prev) => ({ ...prev, dueDate: e.target.value }))
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Assignee</label>
+              <Input
+                value={newTask.assignee || ""}
+                onChange={(e) =>
+                  setNewTask((prev) => ({ ...prev, assignee: e.target.value }))
+                }
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveTask}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
