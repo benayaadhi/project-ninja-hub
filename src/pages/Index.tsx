@@ -1,7 +1,7 @@
 
 import { Navbar } from "@/components/Navbar";
-import { Board } from "@/components/Board";
-import { ChartBar, Plus } from "lucide-react";
+import { ProjectBoards } from "@/components/ProjectBoards";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -16,24 +16,20 @@ const Index = () => {
           <div className="sm:flex sm:items-center justify-between mb-8">
             <div className="sm:flex-auto">
               <h1 className="text-2xl font-semibold text-gray-900">
-                Team Workload
+                Project Boards
               </h1>
               <p className="mt-2 text-sm text-gray-700">
-                Track and manage your team's social media tasks and campaigns.
+                Manage your client projects and team workload
               </p>
             </div>
-            <div className="mt-4 sm:mt-0 sm:flex sm:items-center sm:space-x-4">
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <ChartBar className="w-4 h-4" />
-                <span>Total Active Tasks: {3}</span>
-              </div>
-              <Button onClick={() => navigate("/kanban")}>
+            <div className="mt-4 sm:mt-0">
+              <Button onClick={() => navigate("/board/new")}>
                 <Plus className="w-4 h-4 mr-2" />
-                New Workload
+                New Project
               </Button>
             </div>
           </div>
-          <Board />
+          <ProjectBoards />
         </div>
       </main>
     </div>

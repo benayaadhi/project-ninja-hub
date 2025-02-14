@@ -20,9 +20,10 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/board/:boardId" element={<KanbanPage />} />
+          <Route path="/board/new" element={<KanbanPage />} />
           <Route path="/progress/:taskTitle" element={<ProgressPage />} />
           <Route path="/team-tracker" element={<TeamTracker />} />
-          <Route path="/kanban" element={<KanbanPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
